@@ -22,8 +22,11 @@ DEVICE_CHOSEN = {
 }
 
 AVG_NUMBER_OF_DEVICES = 15
-AVG_PERMANENCE_TIME = 15*60
+AVG_PERMANENCE_TIME = 60*60 # seconds
 REAL_MINUTES = 1
+
+PERIOD = 60 # seconds
+times,devices = [],[]
 
 out_file = 'out_file'
 simulator = Simulator(out_file, avg_number_of_devices=AVG_NUMBER_OF_DEVICES, avg_permanence_time=AVG_PERMANENCE_TIME)
@@ -31,6 +34,7 @@ open(simulator.out_file + '.txt', 'w')
 open(simulator.out_file + '.pcap', 'w')
 open(simulator.out_file + '_probe_ids.txt', 'w')
 start_time = datetime.now()
+ref_time = datetime.now()
 print(start_time)
 
 print('+++++++++++\nStart simulation\n+++++++++++')
@@ -43,11 +47,17 @@ with open(simulator.out_file + '.txt', 'a') as f:
     f.write('+++++++++++Simulation start+++++++++++\n')
     f.write('Initial time (real and simulated): {}\n'.format(start_time))
 
-
 while datetime.now() < start_time + timedelta(seconds=REAL_MINUTES*60) and len(simulator.events_list) > 0:
     event = simulator.events_list.pop(0)  # take the first event from the list
     last_time = event.start_time
     handle_event(event, simulator)  # handle the event
+    if simulator.last_time is not None:
+        if simulator.last_time.timestamp() - ref_time.timestamp() >= PERIOD:
+            ref_time = simulator.last_time
+            # print(len({ev.device.id for ev in simulator.events_list if ev.device is not None}))
+            # devices.append(len([ev.device.id for ev in simulator.events_list if ev.device is not None]))
+            devices.append(len({ev.device.id for ev in simulator.events_list if ev.device is not None}))
+            times.append(simulator.last_time)
 
 end_time = datetime.now()
 alive_devices = [ev.device.id for ev in simulator.events_list if ev.device is not None]
@@ -55,8 +65,12 @@ for device in simulator.devices_list:
     if device.id in alive_devices:
         delete_device(simulator, device, last_time)
 
+X = pd.DataFrame({"Times":times,"Devices":devices})
 print("\n+++++++++++\nSimulation end\n+++++++++++")
 print(end_time)
+print(X.head())
+print(X.tail())
+X.to_csv("./out_file_counts.csv")
 
 different_MACs = 0
 num_pkts = 0

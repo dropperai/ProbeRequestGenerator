@@ -13,6 +13,7 @@ class Simulator:
         self.number_of_devices_available = 0
         self.average_number_of_devices_available = avg_number_of_devices
         self.average_permanence_time = avg_permanence_time
+        self.last_time = None
 
     def new_burst(self, time: datetime, device: Device) -> tuple[float, float, int, list]:
         """Manage device probe request creation and return the deltatime to add for the next probe request"""
@@ -33,13 +34,13 @@ class Simulator:
         burst_rate_chosen = np.random.choice(rates_keys, size=1, p=rate_probs)[0]
         burst_length_chosen = np.random.choice(list(burst_length.keys()), size=1, p=list(burst_length.values()))[0]
 
-        packets = device.send_probe(int_pkt_time_chosen,
+        packets,time = device.send_probe(int_pkt_time_chosen,
                                     self.database.get_VHT_capabilities(device.model),
                                     self.database.get_extended_capabilities(device.model),
                                     self.database.get_HT_capabilities(device.model),
                                     burst_length_chosen,
                                     time)
-
+        self.last_time = time
         return int_pkt_time_chosen, burst_rate_chosen, burst_length_chosen, packets
 
     def add_device(self, device: Device) -> None:

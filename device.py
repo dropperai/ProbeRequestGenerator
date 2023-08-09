@@ -111,7 +111,7 @@ class Device:
                 raise Exception("SOMETHING WENT WRONG!")
         else:
             self.mac_address.append(mac_address)
-        return packets
+        return packets,time
 
     def change_phase(self, phase: int, time: datetime) -> None:
         """Function to change the phase of the device"""

@@ -1,4 +1,5 @@
-import random
+import random,copy
+import pandas as pd
 
 oui = {}
 
