@@ -3,8 +3,8 @@
 */.DS_Store
 
 # Output file of any sort
-# output
-# */out_file_counts.csv
-# */out_file_probe_ids.txt
-# */out_file.pcap
-# */out_file.txt
+outputs
+*/out_file_counts.csv
+*/out_file_probe_ids.txt
+*/out_file.pcap
+*/out_file.txt
