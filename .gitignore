@@ -1,3 +1,9 @@
 # MacOS system files
 .DS_Store
 */.DS_Store
+
+# Output file of any sort
+*/out_file_counts.csv
+*/out_file_probe_ids.txt
+*/out_file.pcap
+*/out_file.txt
