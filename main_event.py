@@ -28,7 +28,7 @@ REAL_MINUTES = 1
 PERIOD = 60 # seconds
 times,devices = [],[]
 
-out_file = '/output/out_file'
+out_file = './output/out_file'
 simulator = Simulator(out_file, avg_number_of_devices=AVG_NUMBER_OF_DEVICES, avg_permanence_time=AVG_PERMANENCE_TIME)
 open(simulator.out_file + '.txt', 'w')
 open(simulator.out_file + '.pcap', 'w')

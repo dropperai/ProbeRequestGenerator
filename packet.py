@@ -87,7 +87,7 @@ def create_probe(vendor: str,
 
 def create_radio():
     return RadioTap(present='TSFT+Flags+Rate+Channel+dBm_AntSignal+Antenna', Flags='', Rate=1.0,
-                    ChannelFrequency=get_frequency(channel=1), ChannelFlags='CCK+2GHz', dBm_AntSignal=-random.randint(30, 70), Antenna=0)
+                    ChannelFrequency=get_frequency(channel=1), ChannelFlags='CCK+2GHz', dBm_AntSignal=-random.randint(MAX_GAIN,MIN_GAIN), Antenna=0)
 
 
 def create_80211(vendor, randomization, seq_number, mac_address, burst_lenght):

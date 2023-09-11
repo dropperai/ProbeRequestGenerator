@@ -1,6 +1,10 @@
 import random,copy
 import pandas as pd
 
+
+OUTDOOR = True # this param influences the tx powers in packet.py
+MAX_GAIN,MIN_GAIN = (40,80) if OUTDOOR is True else (30,70)
+
 oui = {}
 
 def get_oui(vendor_name: str) -> [str, str]:
