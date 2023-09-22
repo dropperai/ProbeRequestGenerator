@@ -25,7 +25,7 @@ DEVICE_CHOSEN = {
 AVG_NUMBER_OF_DEVICES = 15
 AVG_PERMANENCE_TIME = 60*60 # seconds
 # tempo reale di esecuzione (1 minuto corrisponde approssimativamente a 20 minuti di tempo simulato)
-REAL_MINUTES = 1
+REAL_MINUTES = 10
 
 # intervallo di tempo tra una scrittura del file e la successiva
 PERIOD = 60 # seconds
@@ -56,7 +56,7 @@ while datetime.now() < start_time + timedelta(seconds=REAL_MINUTES*60) and len(s
     last_time = event.start_time
     handle_event(event, simulator)  # handle the event
     if simulator.last_time is not None:
-        
+
         # ogni PERIOD secondi viene aggiunto alla lista il numero di device presenti in simulazione con risp. tempi
         if simulator.last_time.timestamp() - ref_time.timestamp() >= PERIOD:
             ref_time = simulator.last_time
