@@ -21,13 +21,17 @@ DEVICE_CHOSEN = {
     "Apple iPhone11": 1,
 }
 
+# numero medio di dispositivi attivi
 AVG_NUMBER_OF_DEVICES = 15
 AVG_PERMANENCE_TIME = 60*60 # seconds
+# tempo reale di esecuzione (1 minuto corrisponde approssimativamente a 20 minuti di tempo simulato)
 REAL_MINUTES = 1
 
+# intervallo di tempo tra una scrittura del file e la successiva
 PERIOD = 60 # seconds
 times,devices = [],[]
 
+# bisogna creare una repo output nella cartella da cui si runna il codice
 out_file = './output/out_file'
 simulator = Simulator(out_file, avg_number_of_devices=AVG_NUMBER_OF_DEVICES, avg_permanence_time=AVG_PERMANENCE_TIME)
 open(simulator.out_file + '.txt', 'w')
@@ -52,6 +56,8 @@ while datetime.now() < start_time + timedelta(seconds=REAL_MINUTES*60) and len(s
     last_time = event.start_time
     handle_event(event, simulator)  # handle the event
     if simulator.last_time is not None:
+        
+        # ogni PERIOD secondi viene aggiunto alla lista il numero di device presenti in simulazione con risp. tempi
         if simulator.last_time.timestamp() - ref_time.timestamp() >= PERIOD:
             ref_time = simulator.last_time
             # print(len({ev.device.id for ev in simulator.events_list if ev.device is not None}))
